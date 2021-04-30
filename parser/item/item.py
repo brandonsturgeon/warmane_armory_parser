@@ -1,5 +1,6 @@
 from parser.armory import ArmoryParser
 
+
 class ItemParser(ArmoryParser):
     def get_section(self, soup):
         return soup.a

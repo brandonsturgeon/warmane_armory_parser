@@ -13,4 +13,4 @@ class ArmoryParser:
         return soup.find(id=self.content_id)
 
     def parse(self):
-        raise NotImplemented
+        raise NotImplementedError

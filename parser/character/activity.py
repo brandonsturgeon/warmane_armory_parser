@@ -1,5 +1,6 @@
 from parser.armory import ArmoryParser
 
+
 class CharacterActivityParser(ArmoryParser):
     def get_section(self, soup):
         return soup.find(class_="recent-activity")
@@ -20,8 +21,6 @@ class CharacterActivityParser(ArmoryParser):
         return stub.find(class_="time").text
 
     def parse_stub(self, stub):
-        stub_data = {}
-
         stub_id = self.extract_id(stub)
         name = self.extract_name(stub)
         timing = self.extract_timing(stub)

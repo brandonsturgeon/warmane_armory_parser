@@ -1,5 +1,6 @@
 from parser.armory import ArmoryParser
 
+
 class CharacterLevelRaceClassParser(ArmoryParser):
     def get_section(self, soup):
         return soup.find(class_="level-race-class")

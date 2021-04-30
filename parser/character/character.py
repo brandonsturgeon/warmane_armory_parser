@@ -1,6 +1,7 @@
 from lib.armory_interface import ArmoryInterface
 from parser.page.summary import SummaryPageParser
 
+
 class CharacterParser:
     def __init__(self, name, realm="Icecrown"):
         self.character_name = name

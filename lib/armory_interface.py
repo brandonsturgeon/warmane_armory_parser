@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
+
 class ArmoryInterface:
     def __init__(self, name, realm):
         self.base_url = f"https://armory.warmane.com/character/{name}/{realm}"

@@ -1,5 +1,6 @@
 from parser.armory import ArmoryParser
 
+
 class CharacterStatsParser(ArmoryParser):
     def get_section(self, soup):
         return soup.find(class_="character-stats")

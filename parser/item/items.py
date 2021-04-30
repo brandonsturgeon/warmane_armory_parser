@@ -1,6 +1,7 @@
 from parser.armory import ArmoryParser
 from parser.item.item import ItemParser
 
+
 class ItemsParser(ArmoryParser):
     ITEM_ORDER = [
         "head", "neck", "shoulder", "back", "chest", "shirt",

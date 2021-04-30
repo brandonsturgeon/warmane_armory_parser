@@ -2,6 +2,7 @@ from parser.armory import ArmoryParser
 from parser.character.level_race_class import CharacterLevelRaceClassParser
 from parser.character.profile import CharacterProfileParser
 
+
 class SummaryPageParser(ArmoryParser):
     content_id = "character-sheet"
 
@@ -10,7 +11,9 @@ class SummaryPageParser(ArmoryParser):
         return {"name": name}
 
     def get_guild_name(self):
-        guild_name = self.page.find(class_="guild-name").find(text=True).strip()
+        guild_name = self.page.find(class_="guild-name")
+        guild_name = guild_name.find(text=True).strip()
+
         return {"guild-name": guild_name}
 
     def get_level_race_class(self):

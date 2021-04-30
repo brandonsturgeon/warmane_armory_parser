@@ -6,6 +6,7 @@ from parser.character.professions import CharacterProfessionsParser
 from parser.character.specialization import CharacterSpecializationParser
 from parser.character.activity import CharacterActivityParser
 
+
 class CharacterProfileParser(ArmoryParser):
     content_id = "character-profile"
 

@@ -1,5 +1,6 @@
 from parser.character.kills import CharacterKillsParser
 
+
 class CharacterSpecializationParser(CharacterKillsParser):
     SPEC_ORDER = ["primary", "secondary"]
 
