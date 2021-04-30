@@ -6,9 +6,12 @@ class SummaryPageParser(ArmoryParser):
     content_id = "character-sheet"
 
     def get_name(self):
-        name = self.page.find(class_="name").text.strip()
-
+        name = self.page.find(class_="name").find(text=True).strip()
         return {"name": name}
+
+    def get_guild_name(self):
+        guild_name = self.page.find(class_="guild-name").find(text=True).strip()
+        return {"guild-name": guild_name}
 
     def get_level_race_class(self):
         return CharacterLevelRaceClassParser(self.page).parse()
@@ -26,6 +29,7 @@ class SummaryPageParser(ArmoryParser):
         summary = {}
 
         summary.update(self.get_name())
+        summary.update(self.get_guild_name())
         summary.update(self.get_level_race_class())
         summary.update(self.get_achievement_points())
         summary.update(self.get_character_profile())
