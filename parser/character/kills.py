@@ -1,11 +1,15 @@
+from typing import Dict, Literal, Union
 from parser.armory import ArmoryParser
+from models.kills import KillsInfo
+
+KILL_TYPES = Literal["total-kills", "today"]
 
 
 class CharacterKillsParser(ArmoryParser):
     def get_section(self, soup):
         return soup.find(class_="pvpbasic")
 
-    def parse_stub(self, stub):
+    def parse_stub(self, stub) -> Dict[KILL_TYPES, Union[int, str]]:
         # 'total kills\n                    1387'
         stub_text = stub.text.strip().lower()
 
@@ -23,7 +27,7 @@ class CharacterKillsParser(ArmoryParser):
 
         return {name: value}
 
-    def parse(self):
+    def parse(self) -> KillsInfo:
         kill_data = {}
         pvp_stubs = self.page.find_all(class_="stub")
 
@@ -31,4 +35,7 @@ class CharacterKillsParser(ArmoryParser):
             stub_data = self.parse_stub(stub)
             kill_data.update(stub_data)
 
-        return kill_data
+        return KillsInfo(
+            all_time=kill_data["total-kills"],
+            today=kill_data["kills-today"]
+        )

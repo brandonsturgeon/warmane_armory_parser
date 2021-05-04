@@ -1,41 +1,58 @@
+import bs4
+from bs4 import BeautifulSoup
+from typing import Dict, Union
 from parser.armory import ArmoryParser
+from models.stats_group import (
+    StatsGroup,
+    STATS_CATEGORIES,
+    STATS_GROUPS,
+    STATS_MAP
+)
+
+PARSED_STATS_TYPE = Dict[STATS_CATEGORIES, STATS_GROUPS]
 
 
 class CharacterStatsParser(ArmoryParser):
-    def get_section(self, soup):
+    def get_section(self, soup: BeautifulSoup):
         return soup.find(class_="character-stats")
 
-    def parse_stub(self, stub):
-        stats = {}
+    def parse_stub(self, stub: bs4.element.Tag) -> PARSED_STATS_TYPE:
+        stats: PARSED_STATS_TYPE = {}
 
-        category = None
-        stub_text_lines = stub.text.split("\n")
+        category: str = ""
+        stub_text_lines: list[str] = stub.text.split("\n")
+
         for line in stub_text_lines:
-            stripped = line.strip().lower()
+            stripped: str = line.strip().lower()
 
             if len(stripped) == 0:
                 continue
 
             # New Category (each stat has a : in the line)
             if ":" not in stripped:
-                stats[stripped] = {}
-                category = stripped
+                category: str = stripped
+                stats[category]: STATS_GROUPS = STATS_MAP[category]()
                 continue
 
-            name, value = stripped.split(": ")
-            name = name.replace(" ", "-")
-            value = self.try_int(value)
+            spl: list[str] = stripped.split(": ")
 
-            stats[category][name] = value
+            name: str = spl[0]
+            name: str = name.replace(" ", "_")
+
+            value: str = spl[1]
+            value: Union[str, int] = self.try_int(value)
+            setattr(stats[category], name, value)
 
         return stats
 
-    def parse(self):
-        stats = {}
-        stubs = self.page.find_all(class_="stub")
+    def parse(self) -> StatsGroup:
+        stats = StatsGroup()
+        stubs: bs4.element.ResultSet = self.page.find_all(class_="stub")
 
         for stub in stubs:
-            stub_stats = self.parse_stub(stub)
-            stats.update(stub_stats)
+            stub_stats: PARSED_STATS_TYPE = self.parse_stub(stub)
+
+            for category, stats_group in stub_stats.items():
+                stats.set_category(category, stats_group)
 
         return stats

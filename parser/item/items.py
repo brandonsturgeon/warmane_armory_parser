@@ -1,24 +1,32 @@
+import bs4
+from bs4 import BeautifulSoup
+from typing import Sequence, Union
+from models.item import Item
+from models.equipped_items import EquippedItems, ITEM_SLOTS
 from parser.armory import ArmoryParser
 from parser.item.item import ItemParser
 
+ITEM_ORDER: Sequence[ITEM_SLOTS] = [
+    "head", "neck", "shoulder", "back", "chest", "shirt",
+    "tabard", "wrist", "hands", "waist", "legs", "feet",
+    "ring1", "ring2", "trinket1", "trinket2", "main-hand",
+    "off-hand", "relic"
+]
+
 
 class ItemsParser(ArmoryParser):
-    ITEM_ORDER = [
-        "head", "neck", "shoulder", "back", "chest", "shirt",
-        "tabard", "wrist", "hands", "waist", "legs", "feet",
-        "ring1", "ring2", "trinket1", "trinket2", "main-hand",
-        "off-hand", "relic"
-    ]
-
-    def get_section(self, soup):
+    def get_section(self, soup: BeautifulSoup) -> BeautifulSoup:
         return soup.find(class_="item-model")
 
-    def parse(self):
-        item_data = {}
-        items = self.page.find_all(class_="item-slot")
+    def parse(self) -> EquippedItems:
+        item_set = EquippedItems()
+        items: bs4.element.ResultSet = self.page.find_all(class_="item-slot")
 
-        for slot, item in zip(self.ITEM_ORDER, items):
-            data = ItemParser(item).parse()
-            item_data[slot] = data
+        for i in range(len(ITEM_ORDER)):
+            slot: ITEM_SLOTS = ITEM_ORDER[i]
+            item: Union[Item, None] = ItemParser(items[i]).parse()
 
-        return item_data
+            if item:
+                item_set.set_slot(slot, item)
+
+        return item_set
