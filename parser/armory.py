@@ -3,6 +3,8 @@ from typing import Union
 
 
 class ArmoryParser:
+    content_id = None
+
     def __init__(self, soup: BeautifulSoup):
         self.soup: BeautifulSoup = soup
         self.page: BeautifulSoup = self.get_section(soup)

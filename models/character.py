@@ -1,9 +1,10 @@
-from typing import Sequence
+from typing import Optional, Sequence
 from models.jsonifiable import JSONifiable
 from models.equipped_items import EquippedItems
 from models.activity import Activity
 from models.profession import ProfessionPair
 from models.specialization import SpecializationPair
+from models.talent import PlayerSpec
 from models.stats_group import StatsGroup
 from models.skills import SkillSet
 from models.kills import KillsInfo
@@ -25,6 +26,7 @@ class Character(JSONifiable):
                  professions: ProfessionPair,
                  skills: SkillSet,
                  specializations: SpecializationPair,
+                 talents: Optional[PlayerSpec],
                  activity: Sequence[Activity]):
 
         self.name = name
@@ -40,4 +42,5 @@ class Character(JSONifiable):
         self.profesions = professions
         self.skills = skills
         self.specializations = specializations
+        self.talents = talents
         self.activity = activity

@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet, Tag
-from typing import Sequence
+from typing import Dict, Sequence
 from parser.armory import ArmoryParser
+from parser.talents.glyphs import GlyphParser
+from models.glyph import Glyph
 from models.talent import (
     Talent,
     TalentRow,
@@ -57,30 +59,31 @@ class PlayerSpecParser(ArmoryParser):
 
         return TalentTree(name=name, rows=rows)
 
-    def parse_spec(self, spec: Tag) -> TalentSpec:
+    def parse_spec(self, spec: Tag, spec_id: int) -> TalentSpec:
         nodes: ResultSet = spec.find_all(class_="talent-tree")
         trees: Sequence[TalentTree] = [self.parse_tree(tree) for tree in nodes]
+        glyphs = GlyphParser(self.page).parse(spec_id)
 
         return TalentSpec(
             tree1=trees[0],
             tree2=trees[1],
-            tree3=trees[2]
+            tree3=trees[2],
+            major_glyphs=glyphs["major"],
+            minor_glyphs=glyphs["minor"]
         )
 
     def parse(self) -> PlayerSpec:
         spec1_node: Tag = self.page.find(id="spec-0")
         spec2_node: Tag = self.page.find(id="spec-1")
 
-        print(spec1_node)
-
         spec1 = None
         spec2 = None
 
         if spec1_node:
-            spec1 = self.parse_spec(spec1_node)
+            spec1 = self.parse_spec(spec1_node, 0)
 
         if spec2_node:
-            spec2 = self.parse_spec(spec2_node)
+            spec2 = self.parse_spec(spec2_node, 1)
 
         return PlayerSpec(
             spec1=spec1,
