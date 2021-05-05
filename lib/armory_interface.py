@@ -19,3 +19,6 @@ class ArmoryInterface:
 
     def get_match_history_content(self) -> BeautifulSoup:
         return self.get_page("match-history")
+
+    def get_talent_content(self) -> BeautifulSoup:
+        return self.get_page("talents")

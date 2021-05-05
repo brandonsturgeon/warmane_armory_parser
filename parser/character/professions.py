@@ -33,5 +33,5 @@ class CharacterProfessionsParser(CharacterKillsParser):
 
         return ProfessionPair(
             primary=professions[0],
-            secondary=professions[1]
+            secondary=professions[1] if len(professions) > 1 else None
         )
