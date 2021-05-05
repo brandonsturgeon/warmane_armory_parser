@@ -22,3 +22,6 @@ class ArmoryInterface:
 
     def get_talent_content(self) -> BeautifulSoup:
         return self.get_page("talents")
+
+    def get_mount_and_companion_content(self) -> BeautifulSoup:
+        return self.get_page("mounts-and-companions")

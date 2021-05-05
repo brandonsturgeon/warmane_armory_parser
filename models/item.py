@@ -8,9 +8,9 @@ SOCKET_NUMBERS = Literal[1, 2, 3]
 class Item(JSONifiable):
     def __init__(self,
                  item_id: str,
-                 gems: ItemGems,
+                 gems: Optional[ItemGems] = None,
                  enchant: Optional[Enchant] = None):
 
-        self.item_id = item_id
+        self.id = item_id
         self.enchant = enchant
         self.gems = gems

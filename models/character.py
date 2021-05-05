@@ -9,6 +9,7 @@ from models.stats_group import StatsGroup
 from models.skills import SkillSet
 from models.kills import KillsInfo
 from models.meta_stats import RACE_TYPES, CLASS_TYPES
+from models.mount import Mount
 
 
 class Character(JSONifiable):
@@ -27,7 +28,8 @@ class Character(JSONifiable):
                  skills: SkillSet,
                  specializations: SpecializationPair,
                  talents: Optional[PlayerSpec],
-                 activity: Sequence[Activity]):
+                 activity: Sequence[Activity],
+                 mounts: Sequence[Mount]):
 
         self.name = name
         self.guild_name = guild_name
@@ -44,3 +46,4 @@ class Character(JSONifiable):
         self.specializations = specializations
         self.talents = talents
         self.activity = activity
+        self.mounts = mounts

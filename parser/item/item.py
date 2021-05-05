@@ -18,9 +18,10 @@ class ItemParser(ArmoryParser):
     def get_section(self, soup: BeautifulSoup) -> BeautifulSoup:
         return soup.a
 
-    def parse_gems_info(self, gems_line: Optional[str] = None) -> ItemGems:
+    def parse_gems_info(self,
+                        gems_line: Optional[str] = None) -> Optional[ItemGems]:
         if not gems_line:
-            return ItemGems()
+            return
 
         gems_info: Dict[str, Gem] = {}
         gems: list = gems_line.split(":")
@@ -37,9 +38,10 @@ class ItemParser(ArmoryParser):
 
         return ItemGems(**gems_info)
 
-    def parse_ench_info(self, enchant_id: Optional[str] = None) -> Enchant:
+    def parse_ench_info(self,
+                        enchant_id: Optional[str] = None) -> Optional[Enchant]:
         if not enchant_id:
-            return Enchant()
+            return
 
         return Enchant(
             enchant_id=enchant_id,
@@ -69,10 +71,10 @@ class ItemParser(ArmoryParser):
         item_data: Dict[str, str] = {i[0]: i[1] for i in parsed_chunks}
 
         gems: Union[str, None] = item_data.get("gems")
-        gem_info: ItemGems = self.parse_gems_info(gems)
+        gem_info: Optional[ItemGems] = self.parse_gems_info(gems)
 
         ench = item_data.get("ench")
-        enchant: Enchant = self.parse_ench_info(ench)
+        enchant: Optional[Enchant] = self.parse_ench_info(ench)
 
         return Item(
             item_id=item_data["item"],

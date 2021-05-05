@@ -25,9 +25,9 @@ class Talent(JSONifiable):
                  current_points: int,
                  max_points: int):
 
-        self.talent_id = talent_id
-        self.current_points = current_points
-        self.max_points = max_points
+        self.id = talent_id
+        self.current = current_points
+        self.max = max_points
 
 
 class TalentRow(JSONifiable):

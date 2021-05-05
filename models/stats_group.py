@@ -1,7 +1,7 @@
-from typing import Optional, Union
+from typing import Literal, Optional, Union
 from models.jsonifiable import JSONifiable
 
-STATS_CATEGORIES = Union[
+STATS_CATEGORIES = Literal[
     "melee",
     "ranged",
     "spell",

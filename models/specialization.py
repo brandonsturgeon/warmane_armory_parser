@@ -1,3 +1,7 @@
+"""
+Used for the quick-access talent info on the Summary page
+"""
+
 from typing import Optional
 from models.jsonifiable import JSONifiable
 from models.talent import TALENT_TREE_NAMES

@@ -7,5 +7,5 @@ class Enchant(JSONifiable):
                  enchant_id: Optional[str] = None,
                  effect: Optional[str] = None):
 
-        self.enchant_id = enchant_id
+        self.id = enchant_id
         self.effect = effect

@@ -7,6 +7,6 @@ class Activity(JSONifiable):
                  name: str,
                  when: str):
 
-        self.activity_id = activity_id
+        self.id = activity_id
         self.name = name
         self.when = when
