@@ -3,16 +3,16 @@ from models.jsonifiable import JSONifiable
 from models.glyph import Glyph
 
 TALENT_TREE_NAMES = Literal[
-    "blood", "frost", "unholy",  # Death Knight
-    "balance", "feral", "restoration",  # Druid
+    "blood", "frost", "unholy",                   # Death Knight
+    "balance", "feral", "restoration",            # Druid
     "beast mastery", "marksmanship", "survival",  # Hunter
-    "arcane", "fire", "frost",  # Mage
-    "holy", "protection", "retribution",  # Paladin
-    "discipline", "holy", "shadow",  # Priest
-    "assassination", "combat", "subtlety",  # Rogue
-    "elemental", "enhancement", "restoration",  # Shaman
-    "affliction", "demonology", "destruction",  # Warlock
-    "arms", "fury", "protection"  # Warrior
+    "arcane", "fire", "frost",                    # Mage
+    "holy", "protection", "retribution",          # Paladin
+    "discipline", "holy", "shadow",               # Priest
+    "assassination", "combat", "subtlety",        # Rogue
+    "elemental", "enhancement", "restoration",    # Shaman
+    "affliction", "demonology", "destruction",    # Warlock
+    "arms", "fury", "protection"                  # Warrior
 ]
 
 
@@ -30,23 +30,13 @@ class Talent(JSONifiable):
         self.max = max_points
 
 
-class TalentRow(JSONifiable):
-    """
-        Represents a row of talent nodes
-    """
-    def __init__(self,
-                 talents: Sequence[Talent]):
-
-        self.talents = talents
-
-
 class TalentTree(JSONifiable):
     """
         Represents a single tree, comprised of many rows
     """
     def __init__(self,
                  name: TALENT_TREE_NAMES,
-                 rows: Sequence[TalentRow]):
+                 rows: Sequence[Sequence[Talent]]):
 
         self.name = name
         self.rows = rows

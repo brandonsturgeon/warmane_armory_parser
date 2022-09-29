@@ -1,12 +1,10 @@
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet, Tag
-from typing import Dict, Sequence
+from typing import Sequence
 from parser.armory import ArmoryParser
 from parser.talents.glyphs import GlyphParser
-from models.glyph import Glyph
 from models.talent import (
     Talent,
-    TalentRow,
     TalentTree,
     TalentSpec,
     PlayerSpec,
@@ -38,11 +36,10 @@ class PlayerSpecParser(ArmoryParser):
             max_points=max_points
         )
 
-    def parse_row(self, tier: Tag) -> TalentRow:
+    def parse_row(self, tier: Tag) -> Sequence[Talent]:
         nodes: ResultSet = tier.find_all(class_="talent")
         row: Sequence[Talent] = [self.parse_node(node) for node in nodes]
-
-        return TalentRow(talents=row)
+        return row
 
     def get_name_from_tree(self, tree: Tag) -> TALENT_TREE_NAMES:
         info: Tag = tree.find(class_="talent-tree-info")
@@ -54,7 +51,7 @@ class PlayerSpecParser(ArmoryParser):
 
     def parse_tree(self, tree: Tag) -> TalentTree:
         tiers: ResultSet = tree.find_all(class_="tier")
-        rows: Sequence[TalentRow] = [self.parse_row(tier) for tier in tiers]
+        rows: Sequence[Sequence[Talent]] = [self.parse_row(tier) for tier in tiers]
         name = self.get_name_from_tree(tree)
 
         return TalentTree(name=name, rows=rows)
