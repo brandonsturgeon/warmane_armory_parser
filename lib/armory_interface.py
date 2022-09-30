@@ -1,5 +1,8 @@
-from bs4 import BeautifulSoup
 import requests
+from typing import Dict, Sequence
+from bs4 import BeautifulSoup
+from models.statistics import StatisticsChunkResponse
+from lib.statistics_generator import get_statistics_content
 
 
 class ArmoryInterface:
@@ -17,6 +20,14 @@ class ArmoryInterface:
 
         return soup
 
+    def get_post_data(self, page: str, data: Dict[str, str]) -> BeautifulSoup:
+        url = f"{self.base_url}/{page}"
+        req: requests.models.Response = requests.post(url, data=data, headers=self.headers)
+        content: str = req.json()["content"]
+        soup = BeautifulSoup(content, "html.parser")
+
+        return soup
+
     def get_summary_content(self) -> BeautifulSoup:
         return self.get_page("summary")
 
@@ -25,6 +36,9 @@ class ArmoryInterface:
 
     def get_talent_content(self) -> BeautifulSoup:
         return self.get_page("talents")
+
+    def get_statistics_content(self) -> Sequence[StatisticsChunkResponse]:
+        return get_statistics_content(self)
 
     def get_mount_and_companion_content(self) -> BeautifulSoup:
         return self.get_page("mounts-and-companions")

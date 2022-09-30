@@ -3,6 +3,7 @@ from lib.armory_interface import ArmoryInterface
 from parser.page.summary import SummaryPageParser
 from parser.page.talents import PlayerSpecParser
 from parser.page.mount_and_companion import MountAndCompanionPageParser
+from parser.page.statistics import StatisticsPageParser
 
 
 class CharacterParser:
@@ -22,8 +23,12 @@ class CharacterParser:
         mount_content = character_armory.get_mount_and_companion_content()
         mount_data = MountAndCompanionPageParser(mount_content).parse()
 
+        statistics_content = character_armory.get_statistics_content()
+        statistics_data = StatisticsPageParser(statistics_content).parse()
+
         return Character(
             **summary_data,
             talents=talent_data,
-            mounts=mount_data
+            mounts=mount_data,
+            statistics=statistics_data
         )
