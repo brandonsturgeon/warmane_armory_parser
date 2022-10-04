@@ -2,7 +2,9 @@ import requests
 from typing import Dict, Sequence
 from bs4 import BeautifulSoup
 from models.statistics import StatisticsChunkResponse
+from models.achievements import AchievementsChunkResponse
 from lib.statistics_generator import get_statistics_content
+from lib.achievements_generator import get_achievements_content
 
 
 class ArmoryInterface:
@@ -39,6 +41,9 @@ class ArmoryInterface:
 
     def get_statistics_content(self) -> Sequence[StatisticsChunkResponse]:
         return get_statistics_content(self)
+
+    def get_achievements_content(self) -> Sequence[AchievementsChunkResponse]:
+        return get_achievements_content(self)
 
     def get_mount_and_companion_content(self) -> BeautifulSoup:
         return self.get_page("mounts-and-companions")
